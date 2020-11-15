@@ -11,7 +11,6 @@ const GridReducer = (state = [], action) => {
             w = parseInt(action.width, 10);
             originalGrid = new Array(h).fill(0);
             originalGrid = originalGrid.map(row => new Array(w).fill(0));
-            random_bool;
             for (let i = 0; i < action.height; i++) {
                 for (let j = 0; j < action.width; j++) {
                     random_bool = Math.random() <= 0.5; // 50% chance of being alive (to make it easier to see its working properly)
@@ -20,7 +19,6 @@ const GridReducer = (state = [], action) => {
             }
             return originalGrid;
         case 'UPDATE_GRID':
-            livingCount;
             for (let i = 0; i < newGrid.length; i++) {
                 for (let j = 0; j < newGrid[i].length; j++) {
                     livingCount = 0;

@@ -4,6 +4,7 @@ import { Row } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import OnOff from './CellComponent';
 import PropTypes from 'prop-types';
+import HeatMap from './HeatmapComponent';
 
 class SimulationComponent extends React.Component {
     constructor(props) {
@@ -11,8 +12,9 @@ class SimulationComponent extends React.Component {
         this.state = {
             grid: props.grid,
             originalGrid: props.grid,
-            copyGrid: [],
             frequency: props.frequency,
+            heatmap: false,
+            heatGrid: props.heatGrid,
         };
     }
 
@@ -32,8 +34,10 @@ class SimulationComponent extends React.Component {
 
     tick() {
         this.props.dispatch({ type: 'UPDATE_GRID' });
+        this.props.dispatch({ type: 'UPDATE_HEATMAP', grid: this.props.grid });
         this.setState({
             grid: this.props.grid,
+            heatGrid: this.props.heatGrid,
         });
     }
 
@@ -49,6 +53,12 @@ class SimulationComponent extends React.Component {
         return count;
     }
 
+    setHeatmap() {
+        this.setState({
+            heatmap: true,
+        });
+    }
+
     render() {
         return (
             <div
@@ -59,20 +69,37 @@ class SimulationComponent extends React.Component {
                     paddingLeft: '10%',
                     paddingRight: '10%',
                 }}>
-                <h3>Alive Cells: {this.countAlive()}</h3>
-                {this.props.grid.map(function (row, index) {
-                    return (
-                        <Row index="test">
-                            {row.map(function (cell, index) {
-                                return (
-                                    <div>
-                                        <OnOff aliveState={cell}></OnOff>
-                                    </div>
-                                );
-                            })}
-                        </Row>
-                    );
-                })}
+                <h3 style={{ textAlign: 'center' }}>
+                    Alive Cells: {this.countAlive()}
+                </h3>
+                {!this.state.heatmap &&
+                    this.props.grid.map(function (row) {
+                        return (
+                            <Row index="test">
+                                {row.map(function (cell) {
+                                    return (
+                                        <div>
+                                            <OnOff aliveState={cell}></OnOff>
+                                        </div>
+                                    );
+                                })}
+                            </Row>
+                        );
+                    })}
+                {this.state.heatmap &&
+                    this.props.heatGrid.map(function (row) {
+                        return (
+                            <Row index="test">
+                                {row.map(function (cell) {
+                                    return (
+                                        <div>
+                                            <HeatMap heatState={cell}></HeatMap>
+                                        </div>
+                                    );
+                                })}
+                            </Row>
+                        );
+                    })}
                 <br />
                 <br />
                 <div
@@ -91,8 +118,16 @@ class SimulationComponent extends React.Component {
                     <button onClick={() => this.componentWillRestart()}>
                         {'Restart'}
                     </button>
+                    <br />
+                    <br />
+                    <button
+                        onClick={() => {
+                            this.setHeatmap();
+                        }}
+                        style={{ textAlign: 'center' }}>
+                        {'View Heatmap'}
+                    </button>
                 </div>
-                {console.log(this.state.originalGrid)}
             </div>
         );
     }
@@ -103,6 +138,7 @@ SimulationComponent.propTypes = {
     state: PropTypes.func.isRequired,
     grid: PropTypes.func.isRequired,
     frequency: PropTypes.func.isRequired,
+    heatGrid: PropTypes.func.isRequired,
 };
 
 let mapDispatchToProps = function (dispatch, props) {
@@ -115,6 +151,7 @@ function mapStateToProps(state, props) {
     return {
         grid: state.GridReducer,
         frequency: state.TimeReducer,
+        heatGrid: state.HeatReducer,
     };
 }
 

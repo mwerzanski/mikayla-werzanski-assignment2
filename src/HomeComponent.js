@@ -26,13 +26,17 @@ class HomeComponent extends React.Component {
             width: this.state.width,
         });
         this.props.dispatch({
+            type: 'CREATE_HEATMAP',
+            height: this.state.height,
+            width: this.state.width,
+        });
+        this.props.dispatch({
             type: 'SET_TIME',
             frequency: this.state.frequency,
         });
     }
 
     render() {
-        console.log(this.props.state);
         return (
             <div style={{ textAlign: 'center', paddingTop: '50px' }}>
                 <h5>Set Simulation Size:</h5>

@@ -59,6 +59,25 @@ class SimulationComponent extends React.Component {
         });
     }
 
+    changeState(rowIndex, colIndex) {
+        this.props.dispatch({
+            type: 'UPDATE_GRID_CELL',
+            grid: this.props.grid,
+            row: rowIndex,
+            col: colIndex,
+        });
+        this.props.dispatch({
+            type: 'UPDATE_HEAT_CELL',
+            grid: this.props.grid,
+            row: rowIndex,
+            col: colIndex,
+        });
+        this.setState({
+            grid: this.props.grid,
+            heatGrid: this.props.heatGrid,
+        });
+    }
+
     render() {
         return (
             <div
@@ -73,12 +92,18 @@ class SimulationComponent extends React.Component {
                     Alive Cells: {this.countAlive()}
                 </h3>
                 {!this.state.heatmap &&
-                    this.props.grid.map(function (row) {
+                    this.props.grid.map(function (row, rowIndex) {
                         return (
                             <Row index="test">
-                                {row.map(function (cell) {
+                                {row.map(function (cell, colIndex) {
                                     return (
-                                        <div>
+                                        <div
+                                            onClick={() => {
+                                                this.changeState(
+                                                    rowIndex,
+                                                    colIndex
+                                                );
+                                            }}>
                                             <OnOff aliveState={cell}></OnOff>
                                         </div>
                                     );

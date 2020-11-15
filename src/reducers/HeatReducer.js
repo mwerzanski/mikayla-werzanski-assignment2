@@ -12,16 +12,19 @@ const HeatReducer = (state = [], action) => {
             random_bool;
             return newMap;
         case 'UPDATE_HEATMAP':
-            console.log(action.grid);
             for (let i = 0; i < action.grid.length; i++) {
                 for (let j = 0; j < action.grid[i].length; j++) {
                     if (action.grid[i][j] === true) {
-                        console.log('true');
                         state[i][j] = 0;
                     } else {
                         state[i][j]++;
                     }
                 }
+            }
+            return state;
+        case 'UPDATE_HEAT_CELL':
+            if (action.grid[action.row][action.col] > 0) {
+                state[action.row][action.col] = 0;
             }
             return state;
         default:

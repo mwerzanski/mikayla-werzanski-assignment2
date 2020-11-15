@@ -85,6 +85,11 @@ const GridReducer = (state = [], action) => {
                 }
             }
             return newGrid;
+        case 'UPDATE_GRID_CELL':
+            if (action.grid[action.row][action.col] === false) {
+                state[action.row][action.col] = true;
+            }
+            return state;
         default:
             return originalGrid;
     }

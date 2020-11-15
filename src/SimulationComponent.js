@@ -37,6 +37,18 @@ class SimulationComponent extends React.Component {
         });
     }
 
+    countAlive() {
+        let count = 0;
+        for (let i = 0; i < this.state.grid.length; i++) {
+            for (let j = 0; j < this.state.grid[i].length; j++) {
+                if (this.state.grid[i][j] === true) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
     render() {
         return (
             <div
@@ -47,6 +59,7 @@ class SimulationComponent extends React.Component {
                     paddingLeft: '10%',
                     paddingRight: '10%',
                 }}>
+                <h3>Alive Cells: {this.countAlive()}</h3>
                 {this.props.grid.map(function (row, index) {
                     return (
                         <Row index="test">

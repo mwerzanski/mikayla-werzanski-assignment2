@@ -23,13 +23,12 @@ export default class NavbarComponent extends React.Component {
                     <ul className="navbar-nav">
                         <li className="nav-item active">
                             <Link className="nav-link" to="/">
-                            Simulation<span className="sr-only">(current)</span>
+                                Simulation
+                                <span className="sr-only">(current)</span>
                             </Link>
                         </li>
                         <li className="nav-item">
-                            <Link
-                                className="nav-link"
-                                to="/AboutComponent">
+                            <Link className="nav-link" to="/AboutComponent">
                                 About
                             </Link>
                         </li>

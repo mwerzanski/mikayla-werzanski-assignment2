@@ -72,8 +72,8 @@ const GridReducer = (state = [], action) => {
                     if (newGrid[i][j] === true && livingCount < 2) {
                         newGrid[i][j] = false;
                     } else if (
-                        (newGrid[i][j] === true && livingCount === 2) ||
-                        livingCount === 3
+                        newGrid[i][j] === true &&
+                        (livingCount === 2 || livingCount === 3)
                     ) {
                         newGrid[i][j] = true;
                     } else if (newGrid[i][j] === true && livingCount > 3) {
